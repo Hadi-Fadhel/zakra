@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zakra — Free Trial</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--blue:#1a56db;--blue2:#1e429f;--blue-light:#ebf5ff;--navy:#0d1b3e;--text2:#4b5563;--text3:#9ca3af;--border:#e5eaf3;--border2:#c3d4f0;--off:#f7f9fc;--shadow:0 4px 24px rgba(26,86,219,.08);--shadow-lg:0 12px 40px rgba(26,86,219,.14);--radius:12px;--radius-lg:20px}
+body{font-family:'Sora',sans-serif;background:var(--off);color:var(--navy);font-size:14px;height:100vh;overflow:hidden;display:flex;flex-direction:column}
+@keyframes pageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.app{display:flex;height:100vh;overflow:hidden}
+
+/* SIDEBAR */
+.sidebar{width:215px;background:#fff;border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
+.brand{display:flex;align-items:center;gap:.6rem;padding:1.1rem 1rem .4rem}
+.brand-icon{width:34px;height:34px;border-radius:9px;background:var(--blue);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.1rem;color:#fff;flex-shrink:0}
+.brand-name{font-weight:800;font-size:1rem;color:var(--navy)}
+.brand-sub{font-size:.6rem;color:var(--text3)}
+.plan-chip{margin:.3rem .8rem .4rem;background:var(--blue-light);color:var(--blue);font-size:.63rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;padding:.28rem .7rem;border-radius:20px;text-align:center;border:1px solid var(--border2)}
+.upgrade-btn-wrap{margin:.2rem .8rem .5rem}
+.upgrade-btn-wrap button{width:100%;padding:.5rem;background:linear-gradient(135deg,var(--blue),var(--navy));color:#fff;border:none;border-radius:8px;font-family:'Sora',sans-serif;font-weight:700;font-size:.74rem;cursor:pointer}
+.upgrade-btn-wrap button:hover{opacity:.88}
+.nav-sec{padding:.8rem .7rem .2rem;font-size:.59rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text3)}
+.nav-item{display:flex;align-items:center;gap:.6rem;padding:.47rem .9rem;margin:1px .4rem;border-radius:8px;cursor:pointer;color:var(--text2);font-size:.8rem;font-weight:600;transition:all .15s}
+.nav-item:hover{background:var(--off);color:var(--navy)}
+.nav-item.active{background:var(--blue-light);color:var(--blue)}
+.sidebar-footer{margin-top:auto;padding:.8rem;border-top:1px solid var(--border)}
+.user-row{display:flex;align-items:center;gap:.6rem;padding:.4rem}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:800;color:#fff}
+.uname{font-size:.78rem;font-weight:700;color:var(--navy)}
+.urole{font-size:.59rem;color:var(--text3)}
+.logout-lnk{display:block;text-align:center;margin-top:.4rem;font-size:.71rem;color:var(--text3);cursor:pointer;text-decoration:none}
+.logout-lnk:hover{color:var(--blue)}
+
+.app-main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:0 1.4rem;height:54px;border-bottom:1px solid var(--border);background:#fff}
+.topbar-title{font-size:1rem;font-weight:800;color:var(--navy)}
+.topbar-badge{background:var(--blue-light);color:var(--blue);font-size:.67rem;font-weight:700;padding:.25rem .65rem;border-radius:20px;border:1px solid var(--border2)}
+.content{flex:1;overflow-y:auto;padding:1.4rem}
+
+.page{display:none}
+.page.active{display:block;animation:pageIn .22s ease}
+
+/* CARDS */
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem;box-shadow:var(--shadow)}
+.card-h{font-size:.64rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:.8rem}
+
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.2rem}
+.stat-c{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:1rem}
+.stat-lbl{font-size:.63rem;font-weight:700;text-transform:uppercase;color:var(--text3);margin-bottom:.35rem}
+.stat-val{font-family:'DM Serif Display',serif;font-size:1.9rem;color:var(--navy);line-height:1}
+.stat-sub{font-size:.67rem;color:var(--text3);margin-top:.2rem}
+.bar-t{background:var(--blue-light);border-radius:50px;height:5px;margin-top:.5rem}
+.bar-f{background:var(--blue);border-radius:50px;height:5px;transition:width .8s}
+.two-col{display:grid;grid-template-columns:1.2fr 1fr;gap:1rem;margin-bottom:1.2rem}
+.path-row{padding:.48rem 0;border-bottom:1px solid var(--border)}
+.path-row:last-child{border-bottom:none}
+.path-name{font-size:.79rem;font-weight:700;color:var(--navy);margin-bottom:.26rem}
+.pbrow{display:flex;align-items:center;gap:.5rem}
+.pb-track{flex:1;background:var(--blue-light);height:5px;border-radius:50px}
+.pb-fill{background:var(--blue);height:5px;border-radius:50px}
+.pb-pct{font-size:.67rem;color:var(--text3);min-width:28px;text-align:right}
+.act-item{display:flex;align-items:flex-start;gap:.5rem;padding:.4rem 0;border-bottom:1px solid var(--border)}
+.act-item:last-child{border-bottom:none}
+.act-dot{width:7px;height:7px;border-radius:50%;background:var(--blue);margin-top:4px}
+.act-txt{font-size:.77rem;color:var(--navy);line-height:1.4}
+.act-time{font-size:.65rem;color:var(--text3);margin-top:2px}
+
+/* BANNERS */
+.up-banner{background:linear-gradient(135deg,var(--navy),#1e3a8a);border-radius:var(--radius);padding:1rem 1.3rem;margin-bottom:1.1rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.up-banner h3{color:#fff;font-size:.88rem;font-weight:700}
+.up-banner p{color:rgba(255,255,255,.65);font-size:.74rem}
+.up-btn{background:#fff;color:var(--blue);font-weight:700;font-size:.74rem;padding:.42rem 1rem;border-radius:50px;border:none;cursor:pointer}
+
+/* TABS */
+.tab-row{display:flex;gap:.4rem;margin-bottom:1.1rem;flex-wrap:wrap}
+.tab-btn{padding:.36rem .88rem;border-radius:20px;border:1.5px solid var(--border);background:#fff;color:var(--text2);font-size:.75rem;font-weight:700;cursor:pointer}
+.tab-btn.active{background:var(--blue-light);border-color:var(--blue);color:var(--blue)}
+
+/* VIDEO CARDS */
+.video-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.2rem}
+.video-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:all .2s;box-shadow:var(--shadow)}
+.video-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:var(--border2)}
+.video-thumb{height:180px;display:flex;align-items:center;justify-content:center;position:relative}
+.video-thumb.algebra{background:linear-gradient(135deg,#1a56db,#1e3a8a)}
+.video-thumb.geometry{background:linear-gradient(135deg,#3b82f6,#1d4ed8)}
+.video-thumb.statistics{background:linear-gradient(135deg,#60a5fa,#2563eb)}
+.video-thumb.locked-th{background:linear-gradient(135deg,#94a3b8,#64748b)}
+.play-icon{width:50px;height:50px;border-radius:50%;background:rgba(255,255,255,.25);border:2px solid rgba(255,255,255,.7);display:flex;align-items:center;justify-content:center;transition:transform .2s}
+.video-card:hover .play-icon{transform:scale(1.1)}
+.video-body{padding:1rem}
+.video-title{font-size:.9rem;font-weight:700;color:var(--navy);margin-bottom:.25rem}
+.video-meta{font-size:.65rem;color:var(--text3);margin-bottom:.5rem}
+.video-progress{height:4px;background:var(--blue-light);border-radius:2px;margin:.5rem 0}
+.video-progress-fill{height:100%;background:var(--blue);border-radius:2px;width:0%}
+.video-status{display:flex;justify-content:space-between;align-items:center;margin-top:.5rem}
+.watch-status{font-size:.6rem;font-weight:700;padding:.2rem .5rem;border-radius:12px}
+.status-done{background:rgba(26,86,219,.1);color:var(--blue)}
+.status-new{background:var(--off);color:var(--text3)}
+
+/* VIDEO PLAYER PAGE */
+.video-player-container{max-width:900px;margin:0 auto}
+.video-player-wrapper{background:#0d1b3e;border-radius:var(--radius);overflow:hidden;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center}
+.video-placeholder{text-align:center;color:white}
+.video-info-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem;margin-top:1rem}
+.video-info-title{font-size:1.1rem;font-weight:800;color:var(--navy)}
+.video-info-meta{font-size:.75rem;color:var(--text3);margin:.3rem 0 .8rem}
+.video-info-desc{font-size:.85rem;color:var(--text2);line-height:1.6}
+.action-buttons{display:flex;gap:1rem;margin-top:1rem}
+.mark-btn{background:var(--blue);color:#fff;border:none;padding:.6rem 1.2rem;border-radius:30px;font-weight:700;font-size:.8rem;cursor:pointer}
+.unmark-btn{background:#ef4444;color:#fff;border:none;padding:.6rem 1.2rem;border-radius:30px;font-weight:700;font-size:.8rem;cursor:pointer}
+.back-btn{background:var(--off);color:var(--text2);border:1px solid var(--border);padding:.5rem 1rem;border-radius:30px;font-size:.75rem;cursor:pointer;margin-bottom:1rem;display:inline-flex;align-items:center;gap:.5rem}
+
+/* FORMULAS - BLURRED LOCKED FORMULAS */
+.formula-section{margin-bottom:1.8rem}
+.formula-sec-h{font-size:.94rem;font-weight:800;color:var(--navy);margin-bottom:.83rem;border-bottom:2px solid var(--blue-light);display:flex;align-items:center;gap:.43rem}
+.formulas-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:.72rem}
+.formula-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:.95rem;position:relative}
+.formula-card.f-locked{opacity:0.8;cursor:pointer;overflow:hidden}
+.formula-card.f-locked .f-name,
+.formula-card.f-locked .f-formula,
+.formula-card.f-locked .f-desc{filter:blur(5px);user-select:none}
+.formula-card.f-locked::before{content:'🔒';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:2rem;z-index:2;background:rgba(255,255,255,0.9);width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,0.1);pointer-events:none}
+.formula-card.f-locked::after{content:'Pro Only - Upgrade to Unlock';position:absolute;bottom:10px;left:0;right:0;text-align:center;font-size:.6rem;font-weight:700;color:var(--blue);background:rgba(255,255,255,0.9);padding:4px;z-index:2;pointer-events:none}
+.f-name{font-size:.74rem;font-weight:700;color:var(--text2);margin-bottom:.43rem}
+.f-formula{font-family:monospace;font-size:.93rem;font-weight:700;color:var(--blue);background:var(--blue-light);padding:.43rem .68rem;border-radius:7px;margin:.43rem 0;text-align:center}
+.f-desc{font-size:.71rem;color:var(--text3);line-height:1.6}
+
+/* QUIZ */
+.quiz-wrap{max-width:630px}
+.quiz-hbar{display:flex;justify-content:space-between;margin-bottom:.88rem}
+.quiz-plbl{font-size:.74rem;color:var(--text3)}
+.quiz-score{background:#fff;border:1px solid var(--border);padding:.24rem .62rem;border-radius:20px}
+.quiz-pt{background:var(--blue-light);height:5px;border-radius:50px;margin-bottom:1.2rem}
+.quiz-pf{background:var(--blue);height:5px;border-radius:50px}
+.q-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:1.3rem}
+.q-text{font-size:.91rem;font-weight:700;color:var(--navy);margin-bottom:.97rem}
+.opt-btn{display:block;width:100%;text-align:left;background:var(--off);border:1.5px solid var(--border);padding:.58rem .88rem;border-radius:8px;margin-bottom:.38rem;cursor:pointer}
+.opt-btn.correct{background:rgba(26,86,219,.1);border-color:var(--blue);color:var(--blue)}
+.opt-btn.wrong{background:#fef2f2;border-color:#fca5a5;color:#b91c1c}
+.q-next{background:var(--blue);color:#fff;border:none;padding:.56rem 1.4rem;border-radius:20px;cursor:pointer;margin-top:.36rem}
+.quiz-done{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:2rem;text-align:center}
+.qd-score{font-family:'DM Serif Display',serif;font-size:3.2rem;color:var(--blue)}
+
+/* PROGRESS */
+.hist-table{width:100%;border-collapse:collapse}
+.hist-table th{font-size:.63rem;text-transform:uppercase;color:var(--text3);padding:.43rem .88rem;border-bottom:1px solid var(--border);text-align:left}
+.hist-table td{padding:.43rem .88rem;border-bottom:1px solid var(--border);font-size:.77rem}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(13,27,62,.55);z-index:999;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal-box{background:#fff;border-radius:var(--radius-lg);padding:2rem;max-width:530px;width:90%;position:relative}
+.modal-x{position:absolute;top:.88rem;right:1.1rem;background:none;border:none;font-size:1.4rem;cursor:pointer}
+.modal-plan-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.3rem 0}
+.mplan{border:2px solid var(--border);border-radius:var(--radius);padding:1.1rem}
+.mplan.pro-plan{border-color:var(--blue)}
+.recommended-badge{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--blue);color:#fff;font-size:.59rem;padding:.2rem .75rem;border-radius:20px}
+.upgrade-go-btn{width:100%;margin-top:.9rem;padding:.62rem;background:var(--blue);color:#fff;border:none;border-radius:50px;cursor:pointer}
+
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:10px}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-icon">Z</div>
+      <div><div class="brand-name">Zakra</div><div class="brand-sub">e-learning platform</div></div>
+    </div>
+    <div class="plan-chip">🎓 Free Trial</div>
+    <div class="upgrade-btn-wrap">
+      <button onclick="openModal()">⭐ Upgrade to Pro</button>
+    </div>
+    <div>
+      <div class="nav-sec">Main</div>
+      <div class="nav-item active" onclick="nav('dashboard',this)">📊 Dashboard</div>
+      <div class="nav-sec">Learn</div>
+      <div class="nav-item" onclick="nav('lessons',this)">🎬 Video Lessons</div>
+      <div class="nav-item" onclick="nav('formulas',this)">📐 Math Formulas</div>
+      <div class="nav-item" onclick="nav('quiz',this)">❓ Quiz</div>
+      <div class="nav-sec">Account</div>
+      <div class="nav-item" onclick="nav('progress',this)">📈 My Progress</div>
+    </div>
+    <div class="sidebar-footer">
+      <div class="user-row">
+        <div class="avatar" id="user-av">?</div>
+        <div><div class="uname" id="user-nm">Student</div><div class="urole">Free Trial</div></div>
+      </div>
+      <a href="index(1).html" class="logout-lnk" onclick="localStorage.removeItem('zakra_session');">← Log out</a>
+    </div>
+  </aside>
+
+  <div class="app-main">
+    <div class="topbar">
+      <div class="topbar-title" id="tb-title">Dashboard</div>
+      <div class="topbar-badge" id="tb-badge">Free Trial</div>
+    </div>
+    <div class="content">
+
+      <!-- DASHBOARD -->
+      <div class="page active" id="page-dashboard">
+        <div class="up-banner">
+          <div><h3>🎓 You're on the Free Trial</h3><p>Upgrade to Pro — unlock 12 videos, 24 formulas &amp; 5 quiz questions per subject for 3 BHD/month</p></div>
+          <button class="up-btn" onclick="openModal()">Upgrade ⭐</button>
+        </div>
+        <p style="margin-bottom:.9rem">Welcome back, <strong id="dash-name" style="color:var(--blue)">Student</strong> 👋</p>
+        <div class="stats-row">
+          <div class="stat-c"><div class="stat-lbl">Overall Completion</div><div class="stat-val" id="d-pct">0%</div><div class="bar-t"><div class="bar-f" id="d-bar" style="width:0%"></div></div></div>
+          <div class="stat-c"><div class="stat-lbl">Videos Watched</div><div class="stat-val" id="d-watched">0</div><div class="stat-sub">of 3 total</div></div>
+          <div class="stat-c"><div class="stat-lbl">Quiz Avg Score</div><div class="stat-val" id="d-avg">—</div><div class="stat-sub">no quizzes yet</div></div>
+        </div>
+        <div class="two-col">
+          <div class="card"><div class="card-h">Subject Progress</div><div id="d-subjects"></div></div>
+          <div class="card"><div class="card-h">Recent Activity</div><div id="d-activity"></div></div>
+        </div>
+      </div>
+
+      <!-- LESSONS -->
+      <div class="page" id="page-lessons">
+        <div class="up-banner"><div><h3>🔒 9 more lessons unlocked in Pro</h3><p>Subscribe for 3 BHD/month to access all 12 videos</p></div><button class="up-btn" onclick="openModal()">Upgrade ⭐</button></div>
+        <div class="tab-row">
+          <button class="tab-btn active" onclick="filterLessons('all',this)">All</button>
+          <button class="tab-btn" onclick="filterLessons('algebra',this)">Algebra</button>
+          <button class="tab-btn" onclick="filterLessons('geometry',this)">Geometry</button>
+          <button class="tab-btn" onclick="filterLessons('statistics',this)">Statistics</button>
+        </div>
+        <div class="video-grid" id="lessons-grid"></div>
+      </div>
+
+      <!-- VIDEO PLAYER -->
+      <div class="page" id="page-video-player">
+        <button class="back-btn" onclick="goBackToLessons()">← Back to Lessons</button>
+        <div class="video-player-container">
+          <div class="video-player-wrapper">
+            <div class="video-placeholder" id="video-placeholder-content">
+              <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M10 8l6 4-6 4V8z"/></svg>
+              <div style="font-size:1rem;font-weight:600;margin-top:.5rem">Video Placeholder</div>
+              <div style="font-size:.75rem;opacity:0.6">You will add your video here</div>
+            </div>
+          </div>
+          <div class="video-info-card">
+            <div class="video-info-title" id="player-title">Lesson Title</div>
+            <div class="video-info-meta" id="player-meta">Subject · Grade · Duration</div>
+            <div class="video-info-desc" id="player-desc">Lesson description will appear here.</div>
+            <div class="action-buttons">
+              <button class="mark-btn" id="mark-watched-btn" onclick="markCurrentVideoWatched()">✓ Mark as Watched</button>
+              <button class="unmark-btn" id="unmark-watched-btn" onclick="unmarkCurrentVideo()">↺ Unmark</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FORMULAS - BLURRED PRO FORMULAS -->
+      <div class="page" id="page-formulas">
+        <div class="up-banner"><div><h3>🔒 Full formula sheets in Pro</h3><p>Unlock 8 formulas per subject — 24 total — with Pro</p></div><button class="up-btn" onclick="openModal()">Upgrade ⭐</button></div>
+        <div id="formula-content"></div>
+      </div>
+
+      <!-- QUIZ -->
+      <div class="page" id="page-quiz">
+        <div class="tab-row" id="quiz-tabs">
+          <button class="tab-btn active" onclick="loadQuiz('algebra',this)">Algebra</button>
+          <button class="tab-btn" onclick="loadQuiz('geometry',this)">Geometry</button>
+          <button class="tab-btn" onclick="loadQuiz('statistics',this)">Statistics</button>
+        </div>
+        <p style="margin-bottom:1rem">Free Trial includes 2 questions per subject. <span style="color:var(--blue);cursor:pointer;font-weight:700" onclick="openModal()">Upgrade for 5 questions →</span></p>
+        <div class="quiz-wrap" id="quiz-wrap"></div>
+      </div>
+
+      <!-- PROGRESS -->
+      <div class="page" id="page-progress">
+        <div class="stats-row">
+          <div class="stat-c"><div class="stat-lbl">Videos Watched</div><div class="stat-val" id="p-v">0</div><div class="stat-sub">of 3 available</div></div>
+          <div class="stat-c"><div class="stat-lbl">Quizzes Done</div><div class="stat-val" id="p-q">0</div></div>
+          <div class="stat-c"><div class="stat-lbl">Best Score</div><div class="stat-val" id="p-best">—</div></div>
+        </div>
+        <div class="two-col">
+          <div class="card"><div class="card-h">Quiz History</div><div id="p-hist"></div></div>
+          <div class="card">
+            <div class="card-h">Weekly Report Preview</div>
+            <p style="margin-bottom:.7rem">Parents receive this summary every Monday via Gmail (Pro feature).</p>
+            <div style="background:var(--off);border:1px solid var(--border);border-radius:8px;padding:.83rem;font-size:.72rem">
+              <div style="font-weight:700;margin-bottom:.33rem">📧 Weekly Summary — Zakra</div>
+              <div>✅ Videos watched: <strong id="rpt-v" style="color:var(--blue)">0</strong></div>
+              <div>📝 Quizzes done: <strong id="rpt-q" style="color:var(--blue)">0</strong></div>
+              <div>⭐ Avg score: <strong id="rpt-s" style="color:var(--blue)">—</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- UPGRADE MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal-box">
+    <button class="modal-x" onclick="closeModal()">×</button>
+    <h3>⭐ Upgrade to Pro</h3>
+    <p style="margin:1rem 0">Only <strong>3 BHD/month</strong></p>
+    <div class="modal-plan-grid">
+      <div class="mplan"><strong>Free</strong><br>3 videos<br>3 formulas/subject<br>2 quiz questions</div>
+      <div class="mplan pro-plan" style="position:relative"><div class="recommended-badge">Recommended</div><strong>Pro</strong><br>12 videos<br>8 formulas/subject<br>5 quiz questions<br><button class="upgrade-go-btn" onclick="goToPro()">Upgrade Now →</button></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+const FREE_LESSONS = [
+  {id:1, subject:'algebra', title:'Introduction to Algebra', desc:'Learn variables, expressions, and constants — aligned to Grade 6 Bahrain MOE curriculum.', duration:'14 min', grade:'Grade 6', tags:['variables','expressions'], deco:'x', bg:'linear-gradient(135deg,#1a56db,#1e3a8a)'},
+  {id:2, subject:'geometry', title:'Angles & Triangles', desc:'Types of angles, triangle properties, and the angle sum theorem with worked exam examples.', duration:'19 min', grade:'Grade 6', tags:['angles','triangles'], deco:'△', bg:'linear-gradient(135deg,#3b82f6,#1d4ed8)'},
+  {id:3, subject:'statistics', title:'Mean, Median & Mode', desc:'Find and interpret averages from raw data and frequency tables — core Grade 6–7 topic.', duration:'13 min', grade:'Grade 6', tags:['averages','mean','mode'], deco:'x̄', bg:'linear-gradient(135deg,#60a5fa,#2563eb)'}
+];
+
+const LOCKED_LESSONS = [
+  {id:4, subject:'algebra', title:'Solving Linear Equations', duration:'18 min', grade:'Grade 7'},
+  {id:5, subject:'algebra', title:'Inequalities', duration:'16 min', grade:'Grade 7'},
+  {id:6, subject:'algebra', title:'Simultaneous Equations', duration:'22 min', grade:'Grade 8'},
+  {id:7, subject:'geometry', title:'Area & Perimeter', duration:'15 min', grade:'Grade 7'},
+  {id:8, subject:'geometry', title:'Circles & Sectors', duration:'20 min', grade:'Grade 8'},
+  {id:9, subject:'geometry', title:'Pythagoras Theorem', duration:'17 min', grade:'Grade 8'},
+  {id:10, subject:'statistics', title:'Charts & Diagrams', duration:'18 min', grade:'Grade 7'},
+  {id:11, subject:'statistics', title:'Probability', duration:'16 min', grade:'Grade 8'},
+  {id:12, subject:'algebra', title:'Quadratic Expressions', duration:'20 min', grade:'Grade 8'}
+];
+
+const FREE_FORMULAS = {
+  algebra:{label:'Algebra',icon:'📐',items:[
+    {name:'General Linear Equation', formula:'ax + b = c', desc:'Solve by subtracting b then dividing by a.'},
+    {name:'Slope of a Line', formula:'m = (y₂−y₁)/(x₂−x₁)', desc:'Rise over run — steepness of a straight line.'},
+    {name:'Straight Line Equation', formula:'y = mx + c', desc:'m is gradient, c is y-intercept.'}
+  ]},
+  geometry:{label:'Geometry',icon:'📏',items:[
+    {name:'Area of Rectangle', formula:'A = l × w', desc:'Length times width.'},
+    {name:'Perimeter of Rectangle', formula:'P = 2(l + w)', desc:'Sum of all four sides.'},
+    {name:'Area of Triangle', formula:'A = ½ × b × h', desc:'Half of base times height.'}
+  ]},
+  statistics:{label:'Statistics',icon:'📊',items:[
+    {name:'Mean', formula:'x̄ = Σx / n', desc:'Sum of all values divided by count.'},
+    {name:'Range', formula:'Range = Max − Min', desc:'Difference between largest and smallest values.'},
+    {name:'Probability', formula:'P(E) = Favourable/Total', desc:'Favourable outcomes divided by total outcomes.'}
+  ]}
+};
+
+const PRO_EXTRA = {
+  algebra:[
+    {name:'Quadratic Formula', formula:'x = (−b ± √(b²−4ac)) / 2a', desc:'Solves any quadratic equation'},
+    {name:'Difference of Two Squares', formula:'a²−b² = (a+b)(a−b)', desc:'Factorise difference of squares'},
+    {name:'Expanding Brackets', formula:'a(b+c) = ab+ac', desc:'The distributive law'},
+    {name:'Index Laws — Multiply', formula:'aᵐ × aⁿ = aᵐ⁺ⁿ', desc:'Add exponents'},
+    {name:'Index Laws — Divide', formula:'aᵐ ÷ aⁿ = aᵐ⁻ⁿ', desc:'Subtract exponents'}
+  ],
+  geometry:[
+    {name:'Circle Circumference', formula:'C = 2πr', desc:'Perimeter of a circle'},
+    {name:'Circle Area', formula:'A = πr²', desc:'Area of a circle'},
+    {name:'Pythagoras Theorem', formula:'a² + b² = c²', desc:'Right triangle relation'},
+    {name:'Arc Length', formula:'l = (θ/360) × 2πr', desc:'Length of curved arc'},
+    {name:'Sector Area', formula:'A = (θ/360) × πr²', desc:'Area of pie slice'}
+  ],
+  statistics:[
+    {name:'Interquartile Range', formula:'IQR = Q3 − Q1', desc:'Middle 50% spread'},
+    {name:'Complementary Probability', formula:"P(not E) = 1 − P(E)", desc:'Event does not happen'},
+    {name:'Combined Events (AND)', formula:'P(A and B) = P(A) × P(B)', desc:'Independent events'},
+    {name:'Expected Value', formula:'E(X) = Σ(x × P(x))', desc:'Weighted average'},
+    {name:'Median (odd n)', formula:'Middle value of sorted data', desc:'Middle position'}
+  ]
+};
+
+const QUIZZES = {
+  algebra:[
+    {q:'What is the value of x in: 2x + 4 = 14?', opts:['x = 3','x = 5','x = 7','x = 9'], ans:1, exp:'Subtract 4: 2x = 10. Divide by 2: x = 5.'},
+    {q:'Simplify: 3a + 5a − 2a', opts:['6a','8a','10a','4a'], ans:0, exp:'3 + 5 − 2 = 6. Answer: 6a.'}
+  ],
+  geometry:[
+    {q:'Sum of interior angles in a triangle?', opts:['90°','180°','270°','360°'], ans:1, exp:'Interior angles of any triangle always add up to 180°.'},
+    {q:'Rectangle 8 cm × 5 cm. Area?', opts:['26 cm²','40 cm²','13 cm²','24 cm²'], ans:1, exp:'Area = l × w = 8 × 5 = 40 cm².'}
+  ],
+  statistics:[
+    {q:'Mean of: 4, 7, 8, 9, 12?', opts:['7','8','9','10'], ans:1, exp:'(4+7+8+9+12) ÷ 5 = 40 ÷ 5 = 8.'},
+    {q:'Mode of: 3, 5, 5, 7, 8, 5, 9?', opts:['5','7','8','9'], ans:0, exp:'5 appears 3 times — more than any other.'}
+  ]
+};
+
+// ============================================================
+// STATE - Creates demo user if none exists
+// ============================================================
+let currentUser = null, userData = null, currentLesson = null, lessonFilter = 'all';
+let qState = {subject:'algebra', current:0, answered:false, score:0, done:false};
+
+function getUserData(email) {
+  try {
+    return JSON.parse(localStorage.getItem('zakra_data_' + email) || '{"watchedIds":[],"quizHistory":[],"activity":[],"plan":"free"}');
+  } catch(e) {
+    return {watchedIds:[], quizHistory:[], activity:[], plan:'free'};
+  }
+}
+
+function saveUserData(email, data) {
+  localStorage.setItem('zakra_data_' + email, JSON.stringify(data));
+}
+
+function saveData() {
+  if (currentUser) {
+    saveUserData(currentUser.email, userData);
+  }
+}
+
+function addActivity(text) {
+  const time = new Date().toLocaleTimeString('en-BH', {hour:'2-digit', minute:'2-digit'}) + ' today';
+  userData.activity.unshift({text, time});
+  if(userData.activity.length > 20) userData.activity.pop();
+  saveData();
+}
+
+// ============================================================
+// INIT - Creates demo user if no session exists
+// ============================================================
+window.onload = function() {
+  let session = localStorage.getItem('zakra_session');
+  
+  if (!session) {
+    const demoEmail = 'demo@zakra.com';
+    const demoName = 'Demo Student';
+    
+    let users = {};
+    try {
+      users = JSON.parse(localStorage.getItem('zakra_users') || '{}');
+    } catch(e) {}
+    
+    if (!users[demoEmail]) {
+      users[demoEmail] = { name: demoName, password: 'demo123' };
+      localStorage.setItem('zakra_users', JSON.stringify(users));
+    }
+    
+    let demoData = getUserData(demoEmail);
+    if (!demoData.watchedIds) {
+      saveUserData(demoEmail, { watchedIds: [], quizHistory: [], activity: [], plan: 'free' });
+    }
+    
+    session = JSON.stringify({ email: demoEmail, name: demoName });
+    localStorage.setItem('zakra_session', session);
+  }
+  
+  try {
+    currentUser = JSON.parse(session);
+    userData = getUserData(currentUser.email);
+    
+    const firstName = currentUser.name.split(' ')[0];
+    const initials = currentUser.name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+    
+    document.getElementById('user-av').textContent = initials;
+    document.getElementById('user-nm').textContent = firstName;
+    document.getElementById('dash-name').textContent = firstName;
+    
+    refreshDashboard();
+    renderLessons('all');
+    renderFormulas();
+    loadQuiz('algebra', null);
+  } catch(e) {
+    currentUser = { name: 'Demo Student', email: 'demo@zakra.com' };
+    userData = { watchedIds: [], quizHistory: [], activity: [], plan: 'free' };
+    document.getElementById('user-av').textContent = 'DS';
+    document.getElementById('user-nm').textContent = 'Demo';
+    document.getElementById('dash-name').textContent = 'Demo';
+    refreshDashboard();
+    renderLessons('all');
+    renderFormulas();
+    loadQuiz('algebra', null);
+  }
+};
+
+function goBackToLessons() {
+  nav('lessons', document.querySelector('.nav-item[onclick*="lessons"]'));
+  renderLessons(lessonFilter);
+}
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+const TITLES = {dashboard:'Dashboard', lessons:'Video Lessons', formulas:'Math Formulas', quiz:'Quiz', progress:'My Progress', 'video-player':'Video Lesson'};
+const BADGES = {dashboard:'Free Trial', lessons:'3 Free Lessons', formulas:'Core Formulas', quiz:'2 Questions / Subject', progress:'Your Stats', 'video-player':'Now Playing'};
+
+function nav(page, el) {
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  if(el) el.classList.add('active');
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  document.getElementById('tb-title').textContent = TITLES[page] || page;
+  document.getElementById('tb-badge').textContent = BADGES[page] || '';
+  if(page === 'dashboard') refreshDashboard();
+  if(page === 'progress') refreshProgress();
+}
+
+function refreshDashboard() {
+  const total = FREE_LESSONS.length, watched = userData.watchedIds.length;
+  const pct = total ? Math.round(watched/total*100) : 0;
+  document.getElementById('d-pct').textContent = pct+'%';
+  document.getElementById('d-bar').style.width = pct+'%';
+  document.getElementById('d-watched').textContent = watched;
+  
+  if(userData.quizHistory.length) {
+    const avg = Math.round(userData.quizHistory.reduce((s,q)=>s+q.pct,0)/userData.quizHistory.length);
+    document.getElementById('d-avg').textContent = avg+'%';
+    document.getElementById('d-asub').textContent = 'last '+userData.quizHistory.length+' quiz'+(userData.quizHistory.length>1?'zes':'');
+  }
+  
+  document.getElementById('d-subjects').innerHTML = ['algebra','geometry','statistics'].map(s=>{
+    const sl = FREE_LESSONS.filter(l=>l.subject===s);
+    const done = sl.filter(l=>userData.watchedIds.includes(l.id)).length;
+    const sp = sl.length ? Math.round(done/sl.length*100) : 0;
+    return `<div class="path-row"><div class="path-name">${s[0].toUpperCase()+s.slice(1)}</div><div class="pbrow"><div class="pb-track"><div class="pb-fill" style="width:${sp}%"></div></div><div class="pb-pct">${sp}%</div></div></div>`;
+  }).join('');
+  
+  const actEl = document.getElementById('d-activity');
+  actEl.innerHTML = userData.activity.length ? userData.activity.slice(0,5).map(a=>`<div class="act-item"><div class="act-dot"></div><div><div class="act-txt">${a.text}</div><div class="act-time">${a.time}</div></div></div>`).join('') : '<p>No activity yet — start a lesson!</p>';
+}
+
+// ============================================================
+// LESSONS
+// ============================================================
+function renderLessons(filter) {
+  lessonFilter = filter;
+  const free = filter === 'all' ? FREE_LESSONS : FREE_LESSONS.filter(l=>l.subject===filter);
+  const locked = filter === 'all' ? LOCKED_LESSONS : LOCKED_LESSONS.filter(l=>l.subject===filter);
+  document.getElementById('lessons-grid').innerHTML = [...free.map(l=>buildVideoCard(l,false)), ...locked.map(l=>buildVideoCard(l,true))].join('');
+}
+
+function buildVideoCard(l, locked) {
+  const watched = userData.watchedIds.includes(l.id);
+  const statusClass = watched ? 'status-done' : 'status-new';
+  const statusText = watched ? '✓ Watched' : 'New';
+  
+  if(locked) {
+    return `<div class="video-card" onclick="openModal()">
+      <div class="video-thumb locked-th" style="background:linear-gradient(135deg,#94a3b8,#64748b);display:flex;align-items:center;justify-content:center"><div style="font-size:2rem">🔒</div></div>
+      <div class="video-body"><div class="video-title">${l.title} 🔒</div><div class="video-meta">${l.grade} · ${l.duration}</div><div class="video-progress"><div class="video-progress-fill" style="width:0%"></div></div><div class="video-status"><span class="watch-status status-new">Pro Only</span></div></div>
+    </div>`;
+  }
+  
+  return `<div class="video-card" onclick="openVideoPlayer(${l.id})">
+    <div class="video-thumb ${l.subject}" style="background:${l.bg};display:flex;align-items:center;justify-content:center"><div class="play-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></div></div>
+    <div class="video-body"><div class="video-title">${l.title}</div><div class="video-meta">${l.grade} · ${l.duration}</div><div class="video-progress"><div class="video-progress-fill" style="width:${watched?100:0}%"></div></div><div class="video-status"><span class="watch-status ${statusClass}">${statusText}</span></div></div>
+  </div>`;
+}
+
+function filterLessons(f, el) {
+  document.querySelectorAll('#page-lessons .tab-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  renderLessons(f);
+}
+
+// ============================================================
+// VIDEO PLAYER
+// ============================================================
+function openVideoPlayer(id) {
+  currentLesson = FREE_LESSONS.find(l=>l.id===id);
+  if(!currentLesson) return;
+  
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-video-player').classList.add('active');
+  document.getElementById('tb-title').textContent = currentLesson.title;
+  document.getElementById('tb-badge').textContent = 'Now Playing';
+  
+  document.getElementById('player-title').textContent = currentLesson.title;
+  document.getElementById('player-meta').textContent = currentLesson.subject[0].toUpperCase()+currentLesson.subject.slice(1)+' · '+currentLesson.grade+' · '+currentLesson.duration;
+  document.getElementById('player-desc').textContent = currentLesson.desc;
+  
+  updateButtonStates();
+}
+
+function updateButtonStates() {
+  const isWatched = userData.watchedIds.includes(currentLesson.id);
+  const markBtn = document.getElementById('mark-watched-btn');
+  const unmarkBtn = document.getElementById('unmark-watched-btn');
+  if(markBtn) {
+    markBtn.textContent = isWatched ? '✓ Already Watched' : '✓ Mark as Watched';
+    markBtn.disabled = isWatched;
+  }
+  if(unmarkBtn) unmarkBtn.disabled = !isWatched;
+}
+
+function markCurrentVideoWatched() {
+  if(!currentLesson) return;
+  if(!userData.watchedIds.includes(currentLesson.id)) {
+    userData.watchedIds.push(currentLesson.id);
+    addActivity('Watched: '+currentLesson.title);
+    saveData();
+    updateButtonStates();
+    refreshDashboard();
+    renderLessons(lessonFilter);
+    showMessage('✅ Lesson marked as completed!', 'success');
+  }
+}
+
+function unmarkCurrentVideo() {
+  if(!currentLesson) return;
+  const index = userData.watchedIds.indexOf(currentLesson.id);
+  if(index !== -1) {
+    userData.watchedIds.splice(index, 1);
+    addActivity('Unmarked: '+currentLesson.title);
+    saveData();
+    updateButtonStates();
+    refreshDashboard();
+    renderLessons(lessonFilter);
+    showMessage('↺ Lesson unmarked', 'info');
+  }
+}
+
+function showMessage(msg, type) {
+  const msgDiv = document.createElement('div');
+  msgDiv.style.cssText = `margin-top:1rem;padding:.5rem;border-radius:8px;font-size:.75rem;text-align:center;background:${type==='success'?'#dbeafe':'#fef3c7'};color:${type==='success'?'#1e3a8a':'#92400e'}`;
+  msgDiv.textContent = msg;
+  document.querySelector('.video-info-card').appendChild(msgDiv);
+  setTimeout(()=>msgDiv.remove(), 3000);
+}
+
+// ============================================================
+// FORMULAS - BLURRED LOCKED FORMULAS
+// ============================================================
+function renderFormulas() {
+  document.getElementById('formula-content').innerHTML = ['algebra','geometry','statistics'].map(s=>{
+    const base = FREE_FORMULAS[s];
+    const extra = PRO_EXTRA[s] || [];
+    return `<div class="formula-section">
+      <div class="formula-sec-h">${base.icon} ${base.label} <span style="font-size:.6rem;background:var(--blue-light);padding:.2rem .5rem;border-radius:20px;margin-left:.5rem">3 Free + 5 Pro (Blurred)</span></div>
+      <div class="formulas-grid">
+        ${base.items.map(f=>`<div class="formula-card"><div class="f-name">${f.name}</div><div class="f-formula">${f.formula}</div><div class="f-desc">${f.desc}</div></div>`).join('')}
+        ${extra.map(f=>`<div class="formula-card f-locked" onclick="openModal()"><div class="f-name">${f.name}</div><div class="f-formula">${f.formula}</div><div class="f-desc">${f.desc} — Upgrade to Pro to unlock</div></div>`).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ============================================================
+// QUIZ
+// ============================================================
+function loadQuiz(sub, el) {
+  document.querySelectorAll('#quiz-tabs .tab-btn').forEach(b=>b.classList.remove('active'));
+  if(el) el.classList.add('active');
+  qState = {subject:sub, current:0, answered:false, score:0, done:false};
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const qs = QUIZZES[qState.subject], wrap = document.getElementById('quiz-wrap');
+  if(qState.done) {
+    const pct = Math.round(qState.score/qs.length*100);
+    const msg = pct>=80 ? 'Excellent! 🎉' : pct>=60 ? 'Good effort — keep practising!' : 'Keep studying — you\'ll improve!';
+    userData.quizHistory.push({subject:qState.subject, pct, score:qState.score, total:qs.length, date:new Date().toLocaleDateString('en-BH')});
+    addActivity('Completed '+qState.subject+' quiz — '+pct+'%');
+    saveData();
+    wrap.innerHTML = `<div class="quiz-done"><div style="font-size:2.2rem">🏆</div><div class="qd-title">${qState.subject[0].toUpperCase()+qState.subject.slice(1)} Quiz Complete</div><div class="qd-score">${pct}%</div><div class="qd-sub">${qState.score} of ${qs.length} correct · ${msg}</div><button class="q-next" onclick="loadQuiz('${qState.subject}',null)">Try Again →</button></div>`;
+    refreshDashboard();
+    return;
+  }
+  const q = qs[qState.current], pct = Math.round(qState.current/qs.length*100);
+  wrap.innerHTML = `<div class="quiz-hbar"><div class="quiz-plbl">Question ${qState.current+1} of ${qs.length}</div><div class="quiz-score">Score: ${qState.score}/${qState.current}</div></div><div class="quiz-pt"><div class="quiz-pf" style="width:${pct}%"></div></div><div class="q-card"><div class="q-text">${q.q}</div>${q.opts.map((o,i)=>`<button class="opt-btn" onclick="pick(${i})">${o}</button>`).join('')}<div id="fb" style="display:none"></div></div><button class="q-next" id="q-next" disabled onclick="nextQ()">Next →</button>`;
+  qState.answered = false;
+}
+
+function pick(i) {
+  if(qState.answered) return;
+  qState.answered = true;
+  const q = QUIZZES[qState.subject][qState.current];
+  if(i === q.ans) qState.score++;
+  document.querySelectorAll('.opt-btn').forEach((b,bi)=>{b.disabled=true; if(bi===q.ans) b.classList.add('correct'); else if(bi===i && i!==q.ans) b.classList.add('wrong');});
+  const fb = document.getElementById('fb');
+  fb.style.display='block'; fb.className = 'fb '+(i===q.ans?'ok':'bad');
+  fb.textContent = (i===q.ans?'✓ Correct! ':'✗ Not quite. ')+q.exp;
+  document.getElementById('q-next').disabled = false;
+}
+
+function nextQ() {
+  qState.current++;
+  if(qState.current >= QUIZZES[qState.subject].length) qState.done = true;
+  renderQuestion();
+}
+
+// ============================================================
+// PROGRESS
+// ============================================================
+function refreshProgress() {
+  document.getElementById('p-v').textContent = userData.watchedIds.length;
+  document.getElementById('p-q').textContent = userData.quizHistory.length;
+  const best = userData.quizHistory.length ? Math.max(...userData.quizHistory.map(q=>q.pct))+'%' : '—';
+  document.getElementById('p-best').textContent = best;
+  document.getElementById('rpt-v').textContent = userData.watchedIds.length;
+  document.getElementById('rpt-q').textContent = userData.quizHistory.length;
+  const avg = userData.quizHistory.length ? Math.round(userData.quizHistory.reduce((s,q)=>s+q.pct,0)/userData.quizHistory.length)+'%' : '—';
+  document.getElementById('rpt-s').textContent = avg;
+  document.getElementById('p-hist').innerHTML = userData.quizHistory.length ? `<table class="hist-table"><thead><tr><th>Subject</th><th>Score</th><th>Date</th></tr></thead><tbody>${userData.quizHistory.slice().reverse().map(q=>`<tr><td style="color:var(--text2)">${q.subject[0].toUpperCase()+q.subject.slice(1)} Quiz</td><td style="text-align:center;color:${q.pct>=70?'var(--blue)':'#e85a2e'}">${q.pct}%</td><td style="text-align:right;color:var(--text3)">${q.date}<td></tr>`).join('')}</tbody></table>` : '<p>No quizzes yet.</p>';
+}
+
+// ============================================================
+// MODAL
+// ============================================================
+function openModal() { document.getElementById('modal').classList.add('open'); }
+function closeModal() { document.getElementById('modal').classList.remove('open'); }
+document.getElementById('modal').addEventListener('click', e=>{ if(e.target === e.currentTarget) closeModal(); });
+function goToPro() {
+  if (currentUser) {
+    userData.plan = 'pro';
+    saveData();
+  }
+  alert('✨ Pro activated! (Demo)\nAll features would be unlocked in the full version.');
+  closeModal();
+}
+</script>
+</body>
+</html>

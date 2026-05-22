@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zakra — Math Made for Bahrain</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--blue:#1a56db;--blue2:#1e429f;--blue-light:#ebf5ff;--navy:#0d1b3e;--text2:#4b5563;--text3:#9ca3af;--border:#e5eaf3;--border2:#c3d4f0;--shadow:0 4px 24px rgba(26,86,219,.10);--shadow-lg:0 16px 48px rgba(26,86,219,.16);--radius:12px;--radius-lg:20px}
+html{scroll-behavior:smooth}
+body{font-family:'Sora',sans-serif;background:#fff;color:var(--navy);font-size:14px;overflow-x:hidden}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 5vw;height:64px;background:rgba(255,255,255,.93);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+.logo{font-size:1.5rem;font-weight:800;color:var(--blue);letter-spacing:-.5px}
+.logo b{color:var(--navy);font-weight:800}
+.nav-right{display:flex;align-items:center;gap:1rem}
+.nav-right a{text-decoration:none;color:var(--text2);font-size:.86rem;font-weight:600;transition:color .2s}
+.nav-right a:hover{color:var(--blue)}
+.nbtn{font-family:'Sora',sans-serif;font-size:.85rem;font-weight:700;padding:.5rem 1.2rem;border-radius:50px;cursor:pointer;border:none;transition:all .2s}
+.nbtn-ghost{background:transparent;color:var(--blue);border:2px solid var(--blue)}
+.nbtn-ghost:hover{background:var(--blue-light)}
+.nbtn-solid{background:var(--blue);color:#fff;box-shadow:0 4px 16px rgba(26,86,219,.28)}
+.nbtn-solid:hover{background:var(--blue2);transform:translateY(-1px)}
+.hero{min-height:100vh;display:flex;align-items:center;padding:7rem 5vw 4rem;background:linear-gradient(135deg,#f0f6ff 0%,#fff 55%,#f0f6ff 100%);position:relative;overflow:hidden}
+.hero-circle{position:absolute;border-radius:50%;pointer-events:none}
+.hc1{width:600px;height:600px;background:radial-gradient(circle,rgba(26,86,219,.07) 0%,transparent 70%);top:-200px;right:-100px}
+.hc2{width:380px;height:380px;background:radial-gradient(circle,rgba(63,131,248,.06) 0%,transparent 70%);bottom:-100px;left:8%}
+.hero-left{position:relative;z-index:1;max-width:680px;animation:fadeUp .5s ease both}
+.hero-tag{display:inline-flex;align-items:center;gap:.5rem;background:var(--blue-light);color:var(--blue);font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.36rem 1rem;border-radius:50px;border:1px solid var(--border2);margin-bottom:1.4rem}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--blue);animation:pulse 2s infinite}
+h1{font-family:'DM Serif Display',serif;font-size:clamp(2.4rem,5.5vw,4rem);line-height:1.08;letter-spacing:-1px;color:var(--navy)}
+h1 em{font-style:italic;color:var(--blue)}
+.hero-sub{margin-top:1.1rem;font-size:.97rem;color:var(--text2);line-height:1.75}
+.hero-actions{margin-top:1.8rem;display:flex;gap:.8rem;flex-wrap:wrap}
+.hero-stats{display:flex;gap:2.5rem;margin-top:2.8rem}
+.hs-num{font-family:'DM Serif Display',serif;font-size:2rem;color:var(--navy);line-height:1}
+.hs-lbl{font-size:.66rem;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-top:.18rem}
+section{padding:5rem 5vw}
+.sec-lbl{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--blue);margin-bottom:.7rem}
+h2{font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,3.5vw,2.7rem);line-height:1.15;color:var(--navy);max-width:640px}
+.sec-sub{font-size:.92rem;color:var(--text2);line-height:1.75;margin-top:.65rem;max-width:510px}
+.feat-bg{background:var(--navy);border-radius:28px;padding:3.5rem 2.5rem}
+.feat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem;margin-top:2.2rem}
+.feat-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:var(--radius);padding:1.5rem;transition:background .2s,transform .2s}
+.feat-card:hover{background:rgba(255,255,255,.1);transform:translateY(-3px)}
+.feat-num{font-family:'DM Serif Display',serif;font-size:2.2rem;color:rgba(255,255,255,.07);line-height:1;margin-bottom:.3rem}
+.feat-icon{font-size:1.5rem;margin-bottom:.7rem}
+.feat-card h3{font-size:.92rem;font-weight:700;color:#fff;margin-bottom:.35rem}
+.feat-card p{font-size:.8rem;color:rgba(255,255,255,.6);line-height:1.7}
+.feat-bg .sec-lbl{color:#7eb3ff}
+.feat-bg h2{color:#fff}
+.pricing-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;margin-top:2.2rem;max-width:680px}
+.price-card{background:#fff;border:1.5px solid var(--border);border-radius:var(--radius-lg);padding:1.8rem;position:relative;transition:transform .2s,box-shadow .2s}
+.price-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.price-card.featured{border-color:var(--blue);border-width:2px}
+.popular-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--blue);color:#fff;font-size:.64rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;padding:.24rem .8rem;border-radius:50px;white-space:nowrap}
+.price-plan{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--text3);margin-bottom:.6rem}
+.price-num{font-family:'DM Serif Display',serif;font-size:2.5rem;color:var(--navy);line-height:1}
+.price-num .cur{font-size:1.1rem;vertical-align:top;margin-top:.35rem;display:inline-block}
+.price-num .per{font-family:'Sora',sans-serif;font-size:.78rem;color:var(--text3);font-weight:400}
+.price-desc{font-size:.8rem;color:var(--text2);margin:.5rem 0 1.2rem;line-height:1.6}
+.price-list{list-style:none;margin-bottom:1.4rem}
+.price-list li{display:flex;align-items:flex-start;gap:.45rem;font-size:.8rem;color:var(--text2);padding:.3rem 0;border-bottom:1px solid var(--border)}
+.price-list li:last-child{border-bottom:none}
+.chk{color:var(--blue);font-weight:800;flex-shrink:0}
+.pbtn{display:block;width:100%;text-align:center;padding:.72rem;border-radius:50px;font-family:'Sora',sans-serif;font-weight:700;font-size:.88rem;cursor:pointer;border:none;transition:all .2s}
+.pbtn-ghost{background:transparent;color:var(--blue);border:2px solid var(--border2)}
+.pbtn-ghost:hover{border-color:var(--blue);background:var(--blue-light)}
+.pbtn-solid{background:var(--blue);color:#fff;box-shadow:0 4px 14px rgba(26,86,219,.25)}
+.pbtn-solid:hover{background:var(--blue2);transform:translateY(-1px)}
+.cmp{width:100%;border-collapse:collapse;font-size:.8rem;margin-top:1.5rem}
+.cmp th{text-align:left;font-size:.64rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);padding:.55rem .9rem;border-bottom:2px solid var(--border)}
+.cmp th:not(:first-child){text-align:center}
+.cmp td{padding:.55rem .9rem;border-bottom:1px solid var(--border);color:var(--text2)}
+.cmp td:not(:first-child){text-align:center}
+.zb{color:var(--blue);font-weight:700}
+.tick{color:var(--blue);font-weight:800}
+.cross{color:#d1d5db}
+footer{padding:2.5rem 5vw;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.foot-logo{font-size:1.2rem;font-weight:800;color:var(--blue)}
+.foot-logo b{color:var(--navy)}
+.foot-copy{font-size:.75rem;color:var(--text3)}
+.foot-links{display:flex;gap:1.5rem}
+.foot-links a{font-size:.75rem;color:var(--text3);text-decoration:none}
+.foot-links a:hover{color:var(--blue)}
+.overlay{display:none;position:fixed;inset:0;background:rgba(13,27,62,.55);z-index:200;align-items:center;justify-content:center;padding:1rem}
+.overlay.open{display:flex}
+.auth-box{background:#fff;border-radius:var(--radius-lg);padding:2.2rem;width:100%;max-width:440px;box-shadow:var(--shadow-lg);position:relative;max-height:90vh;overflow-y:auto}
+.auth-close{position:absolute;top:.9rem;right:1.1rem;background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--text3);line-height:1}
+.auth-close:hover{color:var(--navy)}
+.auth-logo{font-size:1.4rem;font-weight:800;color:var(--blue);margin-bottom:.2rem}
+.auth-tagline{font-size:.78rem;color:var(--text3);margin-bottom:1.4rem}
+.auth-tabs{display:flex;border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:1.4rem}
+.auth-tab{flex:1;padding:.52rem;font-family:'Sora',sans-serif;font-weight:700;font-size:.8rem;background:#fff;color:var(--text3);border:none;cursor:pointer;transition:all .2s}
+.auth-tab.active{background:var(--blue);color:#fff}
+.form-group{margin-bottom:.9rem}
+.form-label{font-size:.74rem;font-weight:700;color:var(--navy);display:block;margin-bottom:.35rem}
+.form-input{width:100%;padding:.62rem .88rem;border:1.5px solid var(--border);border-radius:8px;font-family:'Sora',sans-serif;font-size:.83rem;color:var(--navy);outline:none;transition:border-color .2s}
+.form-input:focus{border-color:var(--blue)}
+.form-input::placeholder{color:var(--text3)}
+.field-err{font-size:.69rem;color:#b91c1c;margin-top:.28rem;display:none}
+.field-err.show{display:block}
+.form-submit{width:100%;padding:.72rem;background:var(--blue);color:#fff;border:none;border-radius:50px;font-family:'Sora',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;transition:all .2s;margin-top:.2rem}
+.form-submit:hover{background:var(--blue2);transform:translateY(-1px)}
+.auth-success{display:none;background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:.72rem 1rem;font-size:.8rem;color:#1d4ed8;margin-bottom:.9rem;text-align:center;font-weight:600}
+.auth-success.show{display:block}
+.auth-switch{font-size:.75rem;color:var(--text3);text-align:center;margin-top:1rem}
+.auth-switch span{color:var(--blue);font-weight:700;cursor:pointer;text-decoration:underline}
+@media(max-width:860px){.feat-grid{grid-template-columns:1fr}.pricing-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo">Za<b>kra</b></div>
+  <div class="nav-right">
+    <a href="#features">Features</a>
+    <a href="#pricing">Pricing</a>
+    <button class="nbtn nbtn-ghost" onclick="openAuth('login')">Log In</button>
+    <button class="nbtn nbtn-solid" onclick="openAuth('signup')">Sign Up Free</button>
+  </div>
+</nav>
+<section class="hero">
+  <div class="hero-circle hc1"></div>
+  <div class="hero-circle hc2"></div>
+  <div class="hero-left">
+    <div class="hero-tag"><div class="dot"></div>Built for Bahraini Students · Ages 12–15</div>
+    <h1>Math that finally<br>makes <em>sense</em> to you</h1>
+    <p class="hero-sub">Structured video lessons, quizzes, and formula sheets — fully aligned with Bahrain's Ministry of Education. Learn at your own pace for far less than private tutoring.</p>
+    <div class="hero-actions">
+      <button class="nbtn nbtn-solid" style="font-size:.95rem;padding:.7rem 1.6rem" onclick="openAuth('signup')">Start Free Trial →</button>
+      <a href="#pricing" class="nbtn nbtn-ghost" style="font-size:.95rem;padding:.7rem 1.6rem">View Plans</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="hs-num">3 BHD</div><div class="hs-lbl">Per Month (Pro)</div></div>
+      <div><div class="hs-num">3</div><div class="hs-lbl">Core Subjects</div></div>
+      <div><div class="hs-num">MOE</div><div class="hs-lbl">Aligned</div></div>
+    </div>
+  </div>
+</section>
+<section id="features" style="padding-top:0">
+  <div class="feat-bg">
+    <div class="sec-lbl">Why Zakra Works</div>
+    <h2>Everything a Bahraini student needs</h2>
+    <div class="feat-grid">
+      <div class="feat-card"><div class="feat-num">01</div><div class="feat-icon">📚</div><h3>MOE-Aligned Video Lessons</h3><p>Every video follows the exact topics and exam style set by Bahrain's Ministry of Education.</p></div>
+      <div class="feat-card"><div class="feat-num">02</div><div class="feat-icon">📐</div><h3>Formula Sheets</h3><p>Complete formula references for Algebra, Geometry, and Statistics organised as they appear in exams.</p></div>
+      <div class="feat-card"><div class="feat-num">03</div><div class="feat-icon">✏️</div><h3>Interactive Quizzes</h3><p>Questions written in Bahraini exam style with instant feedback and full explanations.</p></div>
+      <div class="feat-card"><div class="feat-num">04</div><div class="feat-icon">📊</div><h3>Progress Tracking</h3><p>Your dashboard tracks progress in each subject. Parents get a weekly email report (Pro).</p></div>
+    </div>
+  </div>
+</section>
+<section id="pricing">
+  <div class="sec-lbl">Pricing</div>
+  <h2>A fraction of a tutoring session</h2>
+  <p class="sec-sub">Private tutoring in Bahrain costs 10–15 BHD per hour. Zakra gives structured MOE-aligned learning for 3 BHD a month.</p>
+  <div class="pricing-grid">
+    <div class="price-card">
+      <div class="price-plan">Free Trial</div>
+      <div class="price-num"><span class="cur">BHD</span> 0 <span class="per">/ 7 days</span></div>
+      <div class="price-desc">One video per subject, core formulas, and a starter quiz. No card needed.</div>
+      <ul class="price-list">
+        <li><span class="chk">✓</span> 1 video per subject (3 total)</li>
+        <li><span class="chk">✓</span> Core formula sheets</li>
+        <li><span class="chk">✓</span> 2 quiz questions per subject</li>
+        <li><span class="chk">✓</span> Progress dashboard</li>
+        <li><span class="chk">✓</span> No credit card required</li>
+      </ul>
+      <button class="pbtn pbtn-ghost" onclick="openAuth('signup')">Start Free Trial</button>
+    </div>
+    <div class="price-card featured">
+      <div class="popular-badge">Most Popular</div>
+      <div class="price-plan">Pro Subscription</div>
+      <div class="price-num"><span class="cur">BHD</span> 3 <span class="per">/ month</span></div>
+      <div class="price-desc">Full access — 12 videos, complete formula sheets, full quiz bank, parent report.</div>
+      <ul class="price-list">
+        <li><span class="chk">✓</span> 4 videos per subject (12 total)</li>
+        <li><span class="chk">✓</span> Full formula sheets (8 per subject)</li>
+        <li><span class="chk">✓</span> 5 quiz questions per subject</li>
+        <li><span class="chk">✓</span> Weekly parent email report</li>
+        <li><span class="chk">✓</span> School bulk pricing available</li>
+      </ul>
+      <button class="pbtn pbtn-solid" onclick="openAuth('signup')">Get Started Free</button>
+    </div>
+  </div>
+  <p style="font-size:.74rem;color:var(--text3);margin-top:2rem;text-align:center">How does Zakra compare?</p>
+  <div style="overflow-x:auto">
+    <table class="cmp">
+      <thead><tr><th>Feature</th><th style="color:var(--blue)">Free</th><th style="color:var(--blue)">Pro</th><th>Private Tutor</th><th>YouTube</th></tr></thead>
+      <tbody>
+        <tr><td>Bahraini MOE curriculum</td><td class="zb">✓</td><td class="zb">✓</td><td>✓</td><td><span class="cross">✗</span></td></tr>
+        <tr><td>Monthly cost (BHD)</td><td class="zb">0</td><td class="zb">3</td><td>120–240</td><td>Free</td></tr>
+        <tr><td>Video lessons</td><td class="zb">3</td><td class="zb">12</td><td>Live only</td><td>Unstructured</td></tr>
+        <tr><td>Formula sheets</td><td class="zb">Core</td><td class="zb">Full</td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td></tr>
+        <tr><td>Progress tracking</td><td class="zb"><span class="tick">✓</span></td><td class="zb"><span class="tick">✓</span></td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td></tr>
+        <tr><td>Parent email report</td><td><span class="cross">✗</span></td><td class="zb"><span class="tick">✓</span></td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+<footer>
+  <div class="foot-logo">Za<b>kra</b></div>
+  <div class="foot-copy">© 2025 Zakra · Built for Bahrain 🇧🇭</div>
+  <div class="foot-links"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Contact</a></div>
+</footer>
+
+<!-- AUTH MODAL -->
+<div class="overlay" id="overlay">
+  <div class="auth-box">
+    <button class="auth-close" onclick="closeAuth()">×</button>
+    <div class="auth-logo">Zakra</div>
+    <div class="auth-tagline" id="auth-tagline">Create your free account — no card needed</div>
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tab-signup" onclick="switchTab('signup')">Sign Up Free</button>
+      <button class="auth-tab" id="tab-login" onclick="switchTab('login')">Log In</button>
+    </div>
+    <div class="auth-success" id="auth-success"></div>
+    
+    <!-- SIGNUP FORM -->
+    <div id="form-signup">
+      <div class="form-group"><label class="form-label">First Name</label><input class="form-input" id="s-fn" type="text" placeholder="e.g. Ahmed"><div class="field-err" id="e-fn"></div></div>
+      <div class="form-group"><label class="form-label">Last Name</label><input class="form-input" id="s-ln" type="text" placeholder="e.g. Al-Sayed"><div class="field-err" id="e-ln"></div></div>
+      <div class="form-group"><label class="form-label">Email Address</label><input class="form-input" id="s-em" type="email" placeholder="your@email.com"><div class="field-err" id="e-em"></div></div>
+      <div class="form-group"><label class="form-label">Confirm Email</label><input class="form-input" id="s-em2" type="email" placeholder="Re-enter your email"><div class="field-err" id="e-em2"></div></div>
+      <div class="form-group"><label class="form-label">Password</label><input class="form-input" id="s-pw" type="password" placeholder="At least 6 characters"><div class="field-err" id="e-pw"></div></div>
+      <div class="form-group"><label class="form-label">Confirm Password</label><input class="form-input" id="s-pw2" type="password" placeholder="Re-enter your password"><div class="field-err" id="e-pw2"></div></div>
+      <button class="form-submit" onclick="doSignup()">Start Free Trial →</button>
+      <div class="auth-switch">Already have an account? <span onclick="switchTab('login')">Log in here</span></div>
+    </div>
+    
+    <!-- LOGIN FORM -->
+    <div id="form-login" style="display:none">
+      <div class="form-group"><label class="form-label">Email Address</label><input class="form-input" id="l-em" type="email" placeholder="your@email.com"><div class="field-err" id="e-l-em"></div></div>
+      <div class="form-group"><label class="form-label">Password</label><input class="form-input" id="l-pw" type="password" placeholder="••••••••"><div class="field-err" id="e-l-pw"></div></div>
+      <button class="form-submit" onclick="doLogin()">Log In →</button>
+      <div class="auth-switch">No account yet? <span onclick="switchTab('signup')">Sign up free</span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// AUTHENTICATION SYSTEM
+// ============================================================
+
+function getUsers() {
+  try {
+    return JSON.parse(localStorage.getItem('zakra_users') || '{}');
+  } catch(e) {
+    return {};
+  }
+}
+
+function saveUsers(users) {
+  localStorage.setItem('zakra_users', JSON.stringify(users));
+}
+
+function getUserData(email) {
+  try {
+    return JSON.parse(localStorage.getItem('zakra_data_' + email) || '{"watchedIds":[],"quizHistory":[],"activity":[],"plan":"free"}');
+  } catch(x) {
+    return {watchedIds:[], quizHistory:[], activity:[], plan:'free'};
+  }
+}
+
+function saveUserData(email, data) {
+  localStorage.setItem('zakra_data_' + email, JSON.stringify(data));
+}
+
+function setErr(id, msg) {
+  var el = document.getElementById(id);
+  el.textContent = msg;
+  el.classList.toggle('show', !!msg);
+}
+
+function clearErrs() {
+  document.querySelectorAll('.field-err').forEach(function(e) {
+    e.textContent = '';
+    e.classList.remove('show');
+  });
+}
+
+function openAuth(tab) {
+  clearErrs();
+  document.getElementById('auth-success').classList.remove('show');
+  document.getElementById('overlay').classList.add('open');
+  switchTab(tab || 'signup');
+}
+
+function closeAuth() {
+  document.getElementById('overlay').classList.remove('open');
+}
+
+document.getElementById('overlay').addEventListener('click', function(e) {
+  if (e.target === this) closeAuth();
+});
+
+function switchTab(tab) {
+  document.getElementById('tab-signup').classList.toggle('active', tab === 'signup');
+  document.getElementById('tab-login').classList.toggle('active', tab === 'login');
+  document.getElementById('form-signup').style.display = tab === 'signup' ? 'block' : 'none';
+  document.getElementById('form-login').style.display = tab === 'login' ? 'block' : 'none';
+  document.getElementById('auth-tagline').textContent = tab === 'signup' ? 'Create your free account — no card needed' : 'Welcome back — log in to continue';
+  document.getElementById('auth-success').classList.remove('show');
+  clearErrs();
+}
+
+function doSignup() {
+  clearErrs();
+  
+  var fn = document.getElementById('s-fn').value.trim();
+  var ln = document.getElementById('s-ln').value.trim();
+  var em = document.getElementById('s-em').value.trim().toLowerCase();
+  var em2 = document.getElementById('s-em2').value.trim().toLowerCase();
+  var pw = document.getElementById('s-pw').value;
+  var pw2 = document.getElementById('s-pw2').value;
+  var ok = true;
+  
+  if (!fn) { setErr('e-fn', "First name can't be empty."); ok = false; }
+  else if (fn.length < 2) { setErr('e-fn', 'Must be at least 2 characters.'); ok = false; }
+  
+  if (!ln) { setErr('e-ln', "Last name can't be empty."); ok = false; }
+  else if (ln.length < 2) { setErr('e-ln', 'Must be at least 2 characters.'); ok = false; }
+  
+  if (!em) { setErr('e-em', 'Email is required.'); ok = false; }
+  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) { setErr('e-em', 'Please enter a valid email.'); ok = false; }
+  
+  if (!em2) { setErr('e-em2', 'Please confirm your email.'); ok = false; }
+  else if (em !== em2) { setErr('e-em2', 'Emails do not match.'); ok = false; }
+  
+  if (pw.length < 6) { setErr('e-pw', 'Password must be at least 6 characters.'); ok = false; }
+  
+  if (!pw2) { setErr('e-pw2', 'Please confirm your password.'); ok = false; }
+  else if (pw !== pw2) { setErr('e-pw2', 'Passwords do not match.'); ok = false; }
+  
+  if (!ok) return;
+  
+  var users = getUsers();
+  if (users[em]) {
+    setErr('e-em', 'Account already exists. Please log in.');
+    return;
+  }
+  
+  var name = fn + ' ' + ln;
+  users[em] = { name: name, password: pw };
+  saveUsers(users);
+  
+  // Initialize user data (free trial by default)
+  saveUserData(em, { watchedIds: [], quizHistory: [], activity: [], plan: 'free' });
+  
+  // Save session
+  localStorage.setItem('zakra_session', JSON.stringify({ email: em, name: name }));
+  
+  // Show success message
+  var successDiv = document.getElementById('auth-success');
+  successDiv.textContent = '✅ Account created! Redirecting to your free trial...';
+  successDiv.classList.add('show');
+  
+  // Redirect to free trial after short delay
+  setTimeout(function() {
+    window.location.href = 'free-trial.html';
+  }, 1500);
+}
+
+function doLogin() {
+  clearErrs();
+  
+  var em = document.getElementById('l-em').value.trim().toLowerCase();
+  var pw = document.getElementById('l-pw').value;
+  var ok = true;
+  
+  if (!em) { setErr('e-l-em', 'Email is required.'); ok = false; }
+  if (!pw) { setErr('e-l-pw', 'Password is required.'); ok = false; }
+  
+  if (!ok) return;
+  
+  var users = getUsers();
+  if (!users[em]) {
+    setErr('e-l-em', 'No account found. Please sign up first.');
+    return;
+  }
+  
+  if (users[em].password !== pw) {
+    setErr('e-l-pw', 'Incorrect password.');
+    return;
+  }
+  
+  // Save session
+  localStorage.setItem('zakra_session', JSON.stringify({ email: em, name: users[em].name }));
+  
+  // Get user data to check plan
+  var userData = getUserData(em);
+  
+  // Show success message
+  var successDiv = document.getElementById('auth-success');
+  successDiv.textContent = '✅ Logging in...';
+  successDiv.classList.add('show');
+  
+  // Redirect based on plan
+  setTimeout(function() {
+    if (userData.plan === 'pro') {
+      window.location.href = 'pro.html';
+    } else {
+      window.location.href = 'free-trial.html';
+    }
+  }, 1000);
+}
+
+// Check if user is already logged in
+window.onload = function() {
+  var session = localStorage.getItem('zakra_session');
+  if (session) {
+    try {
+      var data = JSON.parse(session);
+      var userData = getUserData(data.email);
+      // Auto-redirect to their appropriate page
+      if (userData.plan === 'pro') {
+        window.location.href = 'pro.html';
+      } else {
+        window.location.href = 'free-trial.html';
+      }
+    } catch(e) {}
+  }
+};
+
+// Allow Enter key submission
+document.addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') {
+    var signupVisible = document.getElementById('form-signup').style.display !== 'none';
+    var loginVisible = document.getElementById('form-login').style.display !== 'none';
+    if (signupVisible && document.getElementById('overlay').classList.contains('open')) {
+      doSignup();
+    } else if (loginVisible && document.getElementById('overlay').classList.contains('open')) {
+      doLogin();
+    }
+  }
+});
+</script>
+</body>
+</html>
